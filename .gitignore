@@ -22,6 +22,7 @@ tags
 /coverage
 /dist
 /docs/build
+/htmlcov
 /.reports
 /static
 
