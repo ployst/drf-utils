@@ -1,0 +1,31 @@
+# Untracked file types
+*.orig
+*.pyc
+*.xml
+
+# untracked files and directories
+tags
+.ropeproject/
+
+# Editors and IDEs
+.project
+*~
+*.sw[op]
+
+# Build byproducts
+*.egg-info
+.coverage
+/.ep
+/.tox
+/build
+/cover
+/coverage
+/dist
+/docs/build
+/htmlcov
+/.reports
+/static
+
+
+# Some OSX specific thing
+*.DS_Store
