@@ -3,4 +3,5 @@ djangorestframework==3.2.3       # REST API layer
 
 coverage
 flake8==2.2.5
+mock
 wheel
