@@ -6,7 +6,7 @@ from rest_framework.relations import PrimaryKeyRelatedField
 
 class GravatarField(serializers.Field):
     def to_representation(self, obj):
-        return 'http://gravatar.com/avatar/{}'.format(
+        return '//gravatar.com/avatar/{}'.format(
             md5(obj.lower().encode('utf-8')).hexdigest()
         )
 
