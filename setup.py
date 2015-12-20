@@ -4,7 +4,7 @@
 from setuptools import setup
 import os
 
-__version__ = '0.0.1'
+__version__ = '0.0.2'
 
 
 DIR = os.path.dirname(__file__)
