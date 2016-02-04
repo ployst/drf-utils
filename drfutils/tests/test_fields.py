@@ -20,7 +20,7 @@ class TestGravatarField(TestCase):
 
         self.assertEqual(
             serializer.data['gravatar'],
-            'http://gravatar.com/avatar/1c3ed1dc72e643886e597e2d07700b3c'
+            '//gravatar.com/avatar/1c3ed1dc72e643886e597e2d07700b3c'
         )
 
 
