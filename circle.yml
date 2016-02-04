@@ -9,4 +9,4 @@ dependencies:
 ## Customize test commands
 test:
   override:
-    - DJANGO_SETTINGS_MODULE=drfutils.tests.settings django-admin test
+    - PYTHONPATH=. DJANGO_SETTINGS_MODULE=drfutils.tests.settings django-admin test
