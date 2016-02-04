@@ -1,0 +1,12 @@
+machine:
+  python:
+    version: 3.4.3
+
+dependencies:
+  override:
+    - pip install -r test-requirements.txt
+
+## Customize test commands
+test:
+  override:
+    - DJANGO_SETTINGS_MODULE=drfutils.tests.settings django-admin test
