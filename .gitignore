@@ -25,7 +25,7 @@ tags
 /htmlcov
 /.reports
 /static
-
+setup.py
 
 # Some OSX specific thing
 *.DS_Store
