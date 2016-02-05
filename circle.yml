@@ -1,6 +1,8 @@
 machine:
   python:
     version: 3.4.3
+  environment:
+      RELEASE_VERSION: $(echo $CIRCLE_TAG | sed s/v//)
 
 dependencies:
   override:
@@ -9,4 +11,10 @@ dependencies:
 ## Customize test commands
 test:
   override:
-    - PYTHONPATH=. DJANGO_SETTINGS_MODULE=drfutils.tests.settings django-admin test
+    - DJANGO_SETTINGS_MODULE=drfutils.tests.settings django-admin test
+
+deployment:
+  release:
+    tag: /v.*/
+    commands:
+      - ./release.sh $RELEASE_VERSION
