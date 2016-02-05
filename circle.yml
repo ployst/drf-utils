@@ -11,10 +11,11 @@ dependencies:
 ## Customize test commands
 test:
   override:
-    - DJANGO_SETTINGS_MODULE=drfutils.tests.settings django-admin test
+    - PYTHONPATH=. DJANGO_SETTINGS_MODULE=drfutils.tests.settings django-admin test
 
 deployment:
   release:
     tag: /v.*/
     commands:
+      - ./configure-pypi.sh $PYPI_USERNAME $PYPI_PASSWORD
       - ./release.sh $RELEASE_VERSION
