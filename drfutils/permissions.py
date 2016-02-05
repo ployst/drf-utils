@@ -2,11 +2,11 @@ import logging
 
 from rest_framework import permissions
 
+from .conf import TOKEN_HEADER
 from .models import Token
 
 
-LOGGER = logging.getLogger('ployst.api')
-TOKEN_HEADER = 'X-Ployst-Access-Token'
+LOGGER = logging.getLogger('drfutils.permissions')
 HTTP_TOKEN_LOOKUP = "HTTP_" + TOKEN_HEADER.replace('-', '_').upper()
 
 
@@ -15,7 +15,7 @@ def contains_valid_token(request):
     Check that the request contains a registered token.
 
     The request must include a header or querystring argument
-    `X-Ployst-Access-Token` to match a token for a registered client.
+    `TOKEN_HEADER` to match a token for a registered client.
 
     """
     access_token = request.META.get(HTTP_TOKEN_LOOKUP)
