@@ -21,7 +21,7 @@ if __name__ == '__main__':
         author='The ployst team',
         author_email='dev@ployst.com',
         url='https://github.com/ployst/drf-utils',
-        packages=['drfutils'],
+        packages=['drfutils', 'drfutils.migrations'],
         package_data={
             '': ['*.md'],
         },
