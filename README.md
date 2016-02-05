@@ -17,6 +17,6 @@ Run tests with:
 ## Releasing
 
 Circle takes care of releasing to PyPI. Simply create a tag in the form
-v3.2.1 and circle will build and release as 3.2.1.
+3.2.1 and circle will build and release as 3.2.1.
 
 To release locally, run `./release.sh <version>`
