@@ -51,7 +51,8 @@ class ClientTokenPermission(permissions.BasePermission):
         This security check is intentionally simplistic for now. Later on we
         may want to match originating host/domain and token.
         """
-        return contains_valid_token(request)
+        request.has_valid_token = contains_valid_token(request)
+        return request.has_valid_token
 
     def has_object_permission(self, request, view, obj):
         """
