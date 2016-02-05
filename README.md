@@ -12,4 +12,4 @@ DRF Utils only supports Python 3. It has been tested with Python 3.4.
 
 Run tests with:
 
-    DJANGO_SETTINGS_MODULE=drfutils.tests.settings python -m unittest discover
+    DJANGO_SETTINGS_MODULE=drfutils.tests.settings django-admin test
