@@ -16,3 +16,5 @@ DATABASES = {
         'NAME': 'drfutil-tests.db',
     }
 }
+
+ROOT_URLCONF = 'drfutils.tests.urls'
