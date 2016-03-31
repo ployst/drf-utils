@@ -14,7 +14,15 @@ def get_querystring_fields(serializer, arg_name):
     return None
 
 
-class DynamicFieldsSerializerMixin(object):
+class FieldLimiterMixin(object):
+    def keep_only_fields(self, fields):
+        if fields is not None:
+            existing = set(self.fields.keys())
+            for field_name in existing - fields:
+                self.fields.pop(field_name)
+
+
+class DynamicFieldsSerializerMixin(FieldLimiterMixin):
     """
     Limit the number of fields to be retrieved as per request querystring.
 
@@ -35,11 +43,22 @@ class DynamicFieldsSerializerMixin(object):
         """
         super().__init__(*args, **kwargs)
         fields = get_querystring_fields(self, 'fields')
+        self.keep_only_fields(fields)
 
-        if fields is not None:
-            existing = set(self.fields.keys())
-            for field_name in existing - fields:
-                self.fields.pop(field_name)
+
+class LimitedFieldsSerializerMixin(FieldLimiterMixin):
+    """
+    Limit the number of fields to be retrieved to Meta.only_fields
+
+    """
+    def __init__(self, *args, **kwargs):
+        """
+        Change the subset of fields to display based on only_fields
+
+        """
+        super().__init__(*args, **kwargs)
+        fields = set(self.Meta.only_fields)
+        self.keep_only_fields(fields)
 
 
 class ExpandableFieldsSerializerMixin(object):
@@ -68,3 +87,13 @@ class ExpandableFieldsSerializerMixin(object):
                     self.fields[field_name] = serializer_class(
                         context=self.context
                     )
+
+
+def SerializerBuilder(serializer_class, fields):
+    serializer_class = type(
+        'CustomSerializer',
+        (LimitedFieldsSerializerMixin, serializer_class),
+        {}
+    )
+    serializer_class.Meta.only_fields = fields
+    return serializer_class

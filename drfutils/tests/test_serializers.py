@@ -6,12 +6,17 @@ from rest_framework import fields, serializers
 from ..serializers import (
     DynamicFieldsSerializerMixin,
     ExpandableFieldsSerializerMixin,
+    SerializerBuilder,
 )
 
 
 class CreatorSerializer(serializers.Serializer):
     name = fields.CharField()
     other = serializers.SerializerMethodField()
+    nickname = fields.CharField()
+
+    class Meta:
+        fields = ('name', 'nickname', 'other')
 
     def get_other(self, *args):
         return 'field in expansion'
@@ -30,7 +35,7 @@ class TestExpandableFieldsSerializer(TestCase):
     def test_expands_requested_fields(self):
 
         class ThingWithCreator(object):
-            creator = {'name': 'jim@ployst.com'}
+            creator = {'name': 'jim@ployst.com', 'nickname': 'jim'}
 
         request = Mock()
         request.query_params.get.return_value = 'creator'
@@ -40,7 +45,11 @@ class TestExpandableFieldsSerializer(TestCase):
 
         self.assertDictEqual(
             serializer.data['creator'],
-            {'name': 'jim@ployst.com', 'other': 'field in expansion'}
+            {
+                'name': 'jim@ployst.com',
+                'nickname': 'jim',
+                'other': 'field in expansion'
+            }
         )
 
     def test_does_not_expand_by_default(self):
@@ -105,3 +114,17 @@ class TestDynamicFieldsSerializer(TestCase):
         self.assertDictEqual(
             serializer.data, {'name': 'Jane', 'nickname': 'thesnake'}
         )
+
+
+class TestSerializerBuilder(TestCase):
+
+    def test_only_returns_requested_fields(self):
+        class Thing(object):
+            name = 'Only James'
+            nickname = 'catnip'
+
+        jim = Thing()
+        serializer_class = SerializerBuilder(CreatorSerializer, ('nickname',))
+        serializer = serializer_class(jim)
+
+        self.assertDictEqual(serializer.data, {'nickname': 'catnip'})
