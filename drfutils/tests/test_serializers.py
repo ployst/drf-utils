@@ -6,7 +6,7 @@ from rest_framework import fields, serializers
 from ..serializers import (
     DynamicFieldsSerializerMixin,
     ExpandableFieldsSerializerMixin,
-    SerializerBuilder,
+    SubSerializer,
 )
 
 
@@ -119,12 +119,16 @@ class TestDynamicFieldsSerializer(TestCase):
 class TestSerializerBuilder(TestCase):
 
     def test_only_returns_requested_fields(self):
+        serializer_class = SubSerializer(CreatorSerializer, ('nickname',))
+        self.assertDictEqual(serializer_class.name, 'SubCreatorSerializer')
+
+    def test_only_returns_requested_fields(self):
         class Thing(object):
             name = 'Only James'
             nickname = 'catnip'
 
         jim = Thing()
-        serializer_class = SerializerBuilder(CreatorSerializer, ('nickname',))
+        serializer_class = SubSerializer(CreatorSerializer, ('nickname',))
         serializer = serializer_class(jim)
 
         self.assertDictEqual(serializer.data, {'nickname': 'catnip'})

@@ -89,9 +89,9 @@ class ExpandableFieldsSerializerMixin(object):
                     )
 
 
-def SerializerBuilder(serializer_class, fields):
+def SubSerializer(serializer_class, fields):
     serializer_class = type(
-        'CustomSerializer',
+        'Sub{}'.format(serializer_class.__name__),
         (LimitedFieldsSerializerMixin, serializer_class),
         {}
     )
