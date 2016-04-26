@@ -116,11 +116,11 @@ class TestDynamicFieldsSerializer(TestCase):
         )
 
 
-class TestSerializerBuilder(TestCase):
+class TestSubSerializer(TestCase):
 
-    def test_only_returns_requested_fields(self):
+    def test_subserializer_name(self):
         serializer_class = SubSerializer(CreatorSerializer, ('nickname',))
-        self.assertDictEqual(serializer_class.name, 'SubCreatorSerializer')
+        self.assertEqual(serializer_class.__name__, 'SubCreatorSerializer')
 
     def test_only_returns_requested_fields(self):
         class Thing(object):
@@ -132,3 +132,18 @@ class TestSerializerBuilder(TestCase):
         serializer = serializer_class(jim)
 
         self.assertDictEqual(serializer.data, {'nickname': 'catnip'})
+
+    def test_subserializers_dont_get_mixed_up(self):
+        class Thing(object):
+            name = 'Only James'
+            nickname = 'catnip'
+
+        jim = Thing()
+        NicknameSerializer = SubSerializer(CreatorSerializer, ('nickname',))
+        NameSerializer = SubSerializer(CreatorSerializer, ('name',))
+
+        nickname_serializer = NicknameSerializer(jim)
+        name_serializer = NameSerializer(jim)
+
+        self.assertDictEqual(nickname_serializer.data, {'nickname': 'catnip'})
+        self.assertDictEqual(name_serializer.data, {'name': 'Only James'})
