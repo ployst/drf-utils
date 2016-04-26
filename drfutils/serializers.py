@@ -89,11 +89,15 @@ class ExpandableFieldsSerializerMixin(object):
                     )
 
 
-def SubSerializer(serializer_class, fields):
-    serializer_class = type(
-        'Sub{}'.format(serializer_class.__name__),
-        (LimitedFieldsSerializerMixin, serializer_class),
-        {}
+def SubSerializer(original_serializer_class, fields):
+    new_meta = type(
+        'Meta',
+        (original_serializer_class.Meta,),
+        {'only_fields': fields}
     )
-    serializer_class.Meta.only_fields = fields
+    serializer_class = type(
+        'Sub{}'.format(original_serializer_class.__name__),
+        (LimitedFieldsSerializerMixin, original_serializer_class),
+        {'Meta': new_meta}
+    )
     return serializer_class
