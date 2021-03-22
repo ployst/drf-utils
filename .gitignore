@@ -2,10 +2,13 @@
 *.orig
 *.pyc
 *.xml
+*.db
 
 # untracked files and directories
 tags
 .ropeproject/
+.python-version
+.venv/
 
 # Editors and IDEs
 .project
